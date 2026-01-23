@@ -44,9 +44,15 @@ const getAllCakes = async (req, res) => {
 
     // Format the images as array (GROUP_CONCAT returns comma-separated string)
     const formattedCakes = cakes.map(cake => ({
-      ...cake,
-      images: cake.images ? cake.images.split(',') : []
-    }));
+  ...cake,
+  images: cake.images ? cake.images.map(img => {
+    // Make absolute URL using production domain
+    if (img.startsWith('/uploads')) {
+      return `${process.env.BASE_URL || 'http://localhost:5000'}${img}`;
+    }
+    return img;
+  }) : []
+}));
 
     res.json(formattedCakes);
   } catch (error) {

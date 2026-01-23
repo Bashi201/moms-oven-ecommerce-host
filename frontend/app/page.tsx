@@ -5,6 +5,24 @@ import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { useCartStore } from '@/lib/cartStore';
 import { SparklesIcon, HeartIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+
+const getImageUrl = (path: string | undefined): string => {
+  if (!path) return '/placeholder-cake.jpg';
+
+  // If already a full absolute URL, return as is
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+
+  // Use the API URL (backend) for image paths since images are served from backend
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  
+  // Ensure we don't double up on slashes
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  
+  return `${baseUrl}${cleanPath}`;
+};
 
 interface Cake {
   id: number;
@@ -113,12 +131,12 @@ export default function Home() {
               >
                 Explore Our Cakes
               </a>
-              <a 
+              <Link
                 href="/contact"
                 className="px-8 py-4 bg-white text-gray-800 font-bold rounded-2xl border-2 border-gray-300 hover:border-amber-500 hover:shadow-2xl transition-all duration-300 hover:scale-105 text-lg"
               >
                 Custom Orders
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -185,23 +203,27 @@ export default function Home() {
                   <div className="relative overflow-hidden bg-gradient-to-br from-amber-100 to-orange-100 aspect-square">
                     {cake.images?.length > 0 ? (
                       <img
-                        src={`http://localhost:5000${cake.images[0]}`}
+                        src={getImageUrl(cake.images[0])}
                         alt={cake.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder-cake.jpg';
+                          e.currentTarget.onerror = null;
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <span className="text-8xl">🍰</span>
                       </div>
                     )}
-                    
+
                     {/* Stock Badge */}
                     {cake.stock > 0 && cake.stock <= 5 && (
                       <div className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-2 rounded-full shadow-xl animate-pulse">
                         Only {cake.stock} left!
                       </div>
                     )}
-                    
+
                     {cake.stock === 0 && (
                       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
                         <span className="px-6 py-3 bg-red-500 text-white font-bold rounded-full text-lg shadow-xl">
@@ -267,18 +289,18 @@ export default function Home() {
                 We create custom cakes for birthdays, weddings, anniversaries, and every celebration in between. Let's make your dream cake a reality!
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <a 
+                <Link
                   href="/contact"
                   className="px-10 py-4 bg-white text-gray-900 font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-lg"
                 >
                   Request Custom Cake
-                </a>
-                <a 
+                </Link>
+                <Link
                   href="/about"
                   className="px-10 py-4 bg-transparent text-white font-bold rounded-2xl border-2 border-white hover:bg-white hover:text-gray-900 transition-all duration-300 hover:scale-105 text-lg"
                 >
                   Learn More About Us
-                </a>
+                </Link>
               </div>
             </div>
           </div>
