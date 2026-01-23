@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
-//require('dotenv').config();
+require('dotenv').config();
 
 // We'll create a db connection pool here (better than single connection)
 const pool = mysql.createPool({
