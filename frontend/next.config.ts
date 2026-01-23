@@ -1,3 +1,4 @@
+// next.config.ts (updated for production images)
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -11,13 +12,11 @@ const nextConfig: NextConfig = {
         port: "5000",
         pathname: "/uploads/**",
       },
-      
-      // Keep this for production later (when you deploy backend)
-      // {
-      //   protocol: "https",
-      //   hostname: "your-api-domain.com",
-      //   pathname: "/uploads/**",
-      // },
+      {
+        protocol: "https",
+        hostname: "moms-oven-ecommerce-host-production.up.railway.app",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
