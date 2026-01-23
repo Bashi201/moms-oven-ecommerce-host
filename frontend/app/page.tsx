@@ -1,8 +1,9 @@
-// frontend/app/page.tsx
+// frontend/app/page.tsx (IMPROVED VERSION)
 'use client';
 
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
+import { getImageUrl } from '@/lib/imageUrl';
 import { useCartStore } from '@/lib/cartStore';
 import { SparklesIcon, HeartIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
@@ -58,8 +59,7 @@ export default function Home() {
         <div className="animate-spin rounded-full h-24 w-24 border-4 border-amber-200"></div>
         <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-orange-500 absolute top-0"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl">
-          🍰
-        </div>
+          🰠        </div>
       </div>
       <p className="mt-6 text-gray-600 font-medium animate-pulse">Loading delicious cakes...</p>
     </div>
@@ -185,14 +185,15 @@ export default function Home() {
                   <div className="relative overflow-hidden bg-gradient-to-br from-amber-100 to-orange-100 aspect-square">
                     {cake.images?.length > 0 ? (
                       <img
-                        src={`http://localhost:5000${cake.images[0]}`}
+                        src={getImageUrl(cake.images[0])}
                         alt={cake.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-8xl">🍰</span>
-                      </div>
+                        <span className="text-8xl">🰠                      
+</span>
+                        </div>
                     )}
                     
                     {/* Stock Badge */}
