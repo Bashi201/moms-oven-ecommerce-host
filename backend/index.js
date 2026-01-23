@@ -1,3 +1,4 @@
+// index.js (updated for production CORS)
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -10,12 +11,18 @@ const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
 const contactRoutes = require('./routes/contact');
 
-
-
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',  // Keep for local development
+    'https://helpful-learning-production-55f4.up.railway.app'  // Production frontend
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true  // If using cookies/auth, else false
+}));
 app.use(express.json());
 
 // Serve static files (uploaded cake images)

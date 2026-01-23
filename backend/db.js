@@ -1,3 +1,4 @@
+// db.js (minor update: use process.env for all, ensure compatibility with Railway vars)
 const mysql = require('mysql2');
 require('dotenv').config();
 
