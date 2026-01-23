@@ -2,7 +2,7 @@ const fs = require('fs/promises'); // Use promises version to avoid blocking
 const path = require('path');
 const multer = require('multer');
 const mysql = require('mysql2');
-require('dotenv').config();
+//require('dotenv').config();
 const { uploadMultiple } = require('../middleware/upload');
 
 const pool = mysql.createPool({

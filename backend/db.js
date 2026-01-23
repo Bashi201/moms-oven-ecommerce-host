@@ -1,6 +1,6 @@
 // db.js (minor update: use process.env for all, ensure compatibility with Railway vars)
 const mysql = require('mysql2');
-require('dotenv').config();
+//require('dotenv').config();
 
 const dbName = process.env.DB_NAME || 'moms_oven_db';
 
