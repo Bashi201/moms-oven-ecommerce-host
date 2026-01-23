@@ -217,107 +217,103 @@ export default function ManageProducts() {
               className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-amber-50 text-amber-600 font-bold rounded-xl shadow-lg transition-all hover:scale-105"
             >
               <PlusIcon className="w-5 h-5" />
-              Add Product
+              <span className="hidden sm:inline">Add Product</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Search and Filter Bar */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border-2 border-gray-100">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-amber-500 focus:outline-none transition-colors"
-              />
-            </div>
-            <div className="relative">
-              <FunnelIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <select
-                value={categoryFilter}
-                onChange={(e) => setCategoryFilter(e.target.value)}
-                className="pl-12 pr-8 py-3 border-2 border-gray-200 rounded-xl focus:border-amber-500 focus:outline-none transition-colors appearance-none bg-white cursor-pointer min-w-[200px]"
-              >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>
-                    {cat === 'all' ? 'All Categories' : cat}
-                  </option>
-                ))}
-              </select>
-            </div>
+      {/* Search and Filters */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="bg-white rounded-2xl shadow-lg p-4 flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 relative">
+            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-amber-500 focus:outline-none transition-colors"
+            />
+          </div>
+          <div className="sm:w-48 relative">
+            <FunnelIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-amber-500 focus:outline-none transition-colors appearance-none bg-white cursor-pointer"
+            >
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
+                  {cat === 'all' ? 'All Categories' : cat}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
+      </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCakes.map((cake, index) => (
+      {/* Products Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredCakes.map((cake) => (
             <div
               key={cake.id}
-              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 hover:border-amber-200 hover:-translate-y-1"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-amber-300"
             >
               {/* Image */}
-              <div className="relative h-56 bg-gradient-to-br from-amber-100 to-orange-100 overflow-hidden">
-                {cake.images && cake.images.length > 0 ? (
-                  <Image
+              <div className="relative h-48 bg-gradient-to-br from-amber-100 to-orange-100">
+                {cake.images?.length > 0 ? (
+                  <img
                     src={getImageUrl(cake.images[0])}
                     alt={cake.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <PhotoIcon className="w-20 h-20 text-amber-300" />
+                    <PhotoIcon className="w-16 h-16 text-gray-300" />
                   </div>
                 )}
-                <div className="absolute top-3 right-3 bg-gradient-to-br from-amber-500 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                  LKR {cake.price}
+                
+                {/* Stock Badge */}
+                <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold ${
+                  cake.stock === 0
+                    ? 'bg-red-500 text-white'
+                    : cake.stock <= 5
+                    ? 'bg-yellow-500 text-white'
+                    : 'bg-green-500 text-white'
+                }`}>
+                  {cake.stock === 0 ? 'Out of Stock' : `${cake.stock} in stock`}
                 </div>
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-xl text-gray-800 mb-1 group-hover:text-amber-600 transition-colors">
-                      {cake.name}
-                    </h3>
-                    {cake.category && (
-                      <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
-                        {cake.category}
-                      </span>
-                    )}
-                  </div>
+              <div className="p-4">
+                <div className="mb-3">
+                  <h3 className="font-bold text-gray-900 text-lg line-clamp-1 mb-1">
+                    {cake.name}
+                  </h3>
+                  <p className="text-gray-600 text-sm line-clamp-2 mb-2">
+                    {cake.description || 'No description'}
+                  </p>
+                  {cake.category && (
+                    <span className="inline-block px-2 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-lg">
+                      {cake.category}
+                    </span>
+                  )}
                 </div>
 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {cake.description || 'No description available'}
-                </p>
-
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-sm">
-                    <span className="text-gray-500">Stock:</span>
-                    <span className={`ml-2 font-bold ${cake.stock > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
-                      {cake.stock}
-                    </span>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">Images:</span>
-                    <span className="ml-2 font-bold text-gray-800">{cake.images?.length || 0}</span>
+                <div className="mb-4">
+                  <div className="text-2xl font-black text-amber-600">
+                    Rs. {Number(cake.price).toFixed(2)}
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleEdit(cake)}
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
                   >
                     <PencilIcon className="w-4 h-4" />
                     Edit
