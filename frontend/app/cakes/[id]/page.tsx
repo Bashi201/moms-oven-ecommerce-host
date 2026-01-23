@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import { useCartStore } from '@/lib/cartStore';
+import { getImageUrl } from '@/lib/imageUrl';
 import {
   ShoppingCartIcon,
   HeartIcon,
@@ -146,7 +147,7 @@ export default function ProductDetailPage() {
               {currentImage ? (
                 <>
                   <img
-                    src={`http://localhost:5000${currentImage}`}
+                    src={getImageUrl(currentImage)}
                     alt={cake.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     onError={(e) => {

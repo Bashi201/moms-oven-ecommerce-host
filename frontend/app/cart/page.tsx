@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { TrashIcon, PlusIcon, MinusIcon, ShoppingBagIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { useCartStore } from '@/lib/cartStore';
+import { getImageUrl } from '@/lib/imageUrl';
 import Link from 'next/link';
 
 export default function CartPage() {
@@ -113,7 +114,7 @@ export default function CartPage() {
                           {item.images?.[0] ? (
                             <div className="relative w-32 h-32 rounded-xl overflow-hidden group">
                               <img
-                                src={`http://localhost:5000${item.images[0]}`}
+                                src={getImageUrl(item.images[0])}
                                 alt={item.name}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                               />
