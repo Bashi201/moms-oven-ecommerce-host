@@ -9,6 +9,7 @@ const initialConnection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
+  port: process.env.DB_PORT || 3306,
   multipleStatements: true
 });
 
@@ -35,6 +36,7 @@ const initializeDatabase = (callback) => {
         user: process.env.DB_USER,
         password: process.env.DB_PASS,
         database: dbName,
+        port: process.env.DB_PORT || 3306,
         multipleStatements: true
       });
 
