@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { useCartStore } from '@/lib/cartStore';
+import { getImageUrl } from '@/lib/imageUrl';
 import { SparklesIcon, HeartIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 interface Cake {
@@ -184,7 +185,7 @@ export default function Home() {
                   <div className="relative overflow-hidden bg-gradient-to-br from-amber-100 to-orange-100 aspect-square">
                     {cake.images?.length > 0 ? (
                       <img
-                        src={`http://localhost:5000${cake.images[0]}`}
+                        src={getImageUrl(cake.images[0])}
                         alt={cake.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
