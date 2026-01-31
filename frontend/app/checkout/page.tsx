@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import { useCartStore } from '@/lib/cartStore';
 import { useAuthStore } from '@/lib/authStore';
+import { getImageUrl } from '@/lib/imageUrl';
 import Link from 'next/link';
 import { CheckCircleIcon, TruckIcon, CreditCardIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline';
 
@@ -301,7 +302,7 @@ export default function CheckoutPage() {
                   <div key={item.cartId ?? item.cakeId} className="flex gap-3">
                     {item.images?.[0] ? (
                       <img
-                        src={`http://localhost:5000${item.images[0]}`}
+                        src={getImageUrl(item.images[0])}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded-lg"
                       />
